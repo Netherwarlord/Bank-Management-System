@@ -296,6 +296,81 @@ void display_all()
 		return;
 	}
 	cout << "\n\n\t\tACCOUNT HOLDER LIST\n\n";
-	cout << "=================================================="
+	cout << "====================================================\n";
 	cout << "A/c No.      NAME           TYPE  BALANCE\n";
+	cout << "====================================================\n";
+	while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(account)));
+	{
+		ac.report();
+	}
+	inFile.close();
 }
+
+//****************************************************************//
+// function to deopsit and withdraw amounts                       //
+//****************************************************************//
+
+void deposit_withdraw(int n, int option)
+{
+	int amt;
+	bool found = false;
+	account ac;
+	fstream File;
+	file.open("account.dat", ios::binary|ios::in|ios::out);
+	if(!File)
+	{
+		cout << "File could not be opened !! Press any key ...";
+		return;
+	}
+	while(!File.eof() && found == false)
+	{
+		File.read(reinterpret_cast<char *> (&ac), sizeof(account));
+		if(ac.retacno() == n)
+		{
+			ac.show_account();
+			if(option == 1)
+			{
+				cout << "\n\n\tTO DEPOSIT AMOUNT ";
+				cout << "\n\n\tEnter The Amount to be deposited";
+				cin >> amt;
+				ac.dep(amt);
+			}
+			i(option == 2)
+			{
+				cout << "\n\n\tTO WITHDRAW AMOUNT ";
+				cout << "\n\n\tEnter The Amount to be Withdrawn";
+				cin >> amt;
+				int bal=ac.retdeposit() -amt;
+				if((bal < 500 && ac.rettype() == 'S') || (bal < 1000 && ac.rettype() == 'C'))
+					cout << "Insuficient Funds";
+				else
+					ac.draw(amt);
+			}
+			int pos = (-1) * static_cast<int>(sizeof(ac));
+			File.seekp(pos, ios::cur);
+			File.write(reinterpret_cast<char *> (&ac), sizeof(account));
+			cout << "\n\n\t Record Updated";
+			found = true;
+		}
+	}
+	File.close();
+	if(found == false)
+		cout << "\n\n Record Not Found ";
+}
+
+//******************************************//
+// Introduction Function                    //
+//******************************************//
+
+void intro()
+{
+	cout << "\n\n\n\t  Bank";
+	cout << "\n\n\tManagement";
+	cout << "\n\n\t  System";
+	cout << "\n\n\n\nMade By : Christopher Clendening";
+	cin.get();
+}
+
+//*************************************//
+//     End of Program                  //
+//*************************************//
